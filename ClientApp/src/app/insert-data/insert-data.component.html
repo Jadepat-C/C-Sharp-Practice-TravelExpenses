@@ -1,0 +1,54 @@
+<!-- Add New Record Form -->
+<div class="form">
+  <h1>Add New Record</h1>
+  <p>Insert new record to the dataset</p>
+  <form #myForm="ngForm" (ngSubmit)="submit()" novalidate>
+    <div>
+      <label for="ref_number" class="form-label">Ref Number</label>
+      <input id="ref_number" class="form-control" [(ngModel)]="ref_number" required name="ref_number" #refNumber="ngModel" />
+      <!-- Display an error message if the Ref Number field is invalid -->
+      <div *ngIf="refNumber.invalid && (refNumber.dirty || refNumber.touched)">
+        <div class="alert alert-danger">Ref Number is required.</div>
+      </div>
+    </div>
+    <div>
+      <label for="title" class="form-label">Title</label>
+      <input id="title" class="form-control" [(ngModel)]="title" />
+    </div>
+    <div>
+      <label for="purpose" class="form-label">Purpose</label>
+      <input id="purpose" class="form-control" [(ngModel)]="purpose" />
+    </div>
+    <div>
+      <label for="start_date" class="form-label">Start Date</label>
+      <input id="start_date" type="date" class="form-control" [(ngModel)]="start_date" />
+    </div>
+    <div>
+      <label for="end_date" class="form-label">End Date</label>
+      <input id="end_date" type="date" class="form-control" [(ngModel)]="end_date" />
+    </div>
+    <div>
+      <label for="airfare" class="form-label">Airfare</label>
+      <input id="airfare" type="number" class="form-control" [(ngModel)]="airfare" (ngModelChange)="calculateTotal()" />
+    </div>
+    <div>
+      <label for="other_transport" class="form-label">Other Transportation</label>
+      <input id="other_transport" type="number" class="form-control" [(ngModel)]="other_transport" (ngModelChange)="calculateTotal()" />
+    </div>
+    <div>
+      <label for="meals" class="form-label">Meals</label>
+      <input id="meals" type="number" class="form-control" [(ngModel)]="meals" (ngModelChange)="calculateTotal()" />
+    </div>
+    <div>
+      <label for="other_expenses" class="form-label">Other Expenses</label>
+      <input id="other_expenses" type="number" class="form-control" [(ngModel)]="other_expenses" (ngModelChange)="calculateTotal()" />
+    </div>
+    <p aria-live="polite">Total: <strong>{{ total | number:'1.2-2'}}</strong></p>
+
+    <button class="btn btn-primary">Submit</button>
+    <button class="btn btn-secondary mx-2" (click)="reset()">Reset</button>
+  </form>
+</div>
+
+
+

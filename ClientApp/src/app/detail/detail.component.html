@@ -1,0 +1,26 @@
+<div *ngIf="selectedInstance" class="form">
+  <h1>Details for {{ selectedInstance.ref_number }}</h1>
+  <!-- Display details here -->
+  <h5>Ref Number</h5>
+  <p>{{ selectedInstance.ref_number }}</p>
+  <h5>Title</h5>
+  <p>{{ selectedInstance.title_en }}</p>
+  <h5>Purpose</h5>
+  <p>{{ selectedInstance.purpose_en }}</p>
+  <h5>Start Date</h5>
+  <p>{{ selectedInstance.start_date }}</p>
+  <h5>End Date</h5>
+  <p>{{ selectedInstance.end_date }}</p>
+  <h5>Airfare</h5>
+  <p>{{ selectedInstance.airfare | number:'1.2-2'}}</p>
+  <h5>Other Transportation</h5>
+  <p>{{ selectedInstance.other_transport | number:'1.2-2'}}</p>
+  <h5>Meals</h5>
+  <p>{{ selectedInstance.meals | number:'1.2-2'}}</p>
+  <h5>Other Expenses</h5>
+  <p>{{ selectedInstance.other_expenses | number:'1.2-2'}}</p>
+  <h5>Total</h5>
+  <p>{{ selectedInstance.total | number:'1.2-2'}}</p>
+  <button class="btn btn-primary" [routerLink]="['/edit', selectedInstance.id]">Edit Record</button>
+  <button class="btn btn-danger mx-2" (click)="delete()">Delete Record</button>
+</div>

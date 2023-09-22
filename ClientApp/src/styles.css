@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.form {
+  padding-left: 30%;
+  padding-right: 30%;
+  padding-bottom: 30px;
+}
+
+.clickable-row:hover {
+  background-color: #b8b8b8;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.page-link {
+    cursor: pointer;
+}

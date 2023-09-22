@@ -1,0 +1,58 @@
+<!-- View Record Component -->
+<h1>View Record</h1>
+<p>All records ordered by descendant</p>
+<ul class="pagination">
+  <li class="page-item">
+    <a class="p-2 page-link" (click)="goFirst()">
+      <span aria-hidden="true">&laquo;</span>
+    </a>
+  </li>
+  <li class="page-item">
+    <a class="p-2 page-link" (click)="previousPage()">&lsaquo;</a>
+  </li>
+  <li class="page-item" *ngIf="totalPages() > 1">
+    <ng-container *ngFor="let page of visiblePageNumbers()">
+      <li class="page-item" style="display: inline-block;">
+        <a class="p-2 page-link" (click)="goToPage(page)">{{ page }}</a>
+      </li>
+    </ng-container>
+  </li>
+  <li class="page-item">
+    <a class="p-2 page-link" (click)="nextPage()">&rsaquo;</a>
+  </li>
+  <li class="page-item">
+    <a class="p-2 page-link" (click)="goLast()">&raquo;</a>
+  </li>
+</ul>
+
+<!-- Table to Display Records -->
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="dataset">
+  <thead>
+    <tr>
+      <th>Ref Number</th>
+      <th>Title</th>
+      <th>Purpose</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Airfare</th>
+      <th>Other Transportation</th>
+      <th>Meals</th>
+      <th>Other Expenses</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="clickable-row" *ngFor="let instance of displayedInstances()" (click)="selectInstance(instance)" [routerLink]="['/detail', instance.id]">
+      <td>{{ instance.ref_number }}</td>
+      <td>{{ instance.title_en }}</td>
+      <td>{{ instance.purpose_en }}</td>
+      <td>{{ instance.start_date }}</td>
+      <td>{{ instance.end_date }}</td>
+      <td>{{ instance.airfare | number:'1.2-2' }}</td>
+      <td>{{ instance.other_transport | number:'1.2-2' }}</td>
+      <td>{{ instance.meals | number:'1.2-2' }}</td>
+      <td>{{ instance.other_expenses | number:'1.2-2' }}</td>
+      <td>{{ instance.total | number:'1.2-2' }}</td>
+    </tr>
+  </tbody>
+</table>
