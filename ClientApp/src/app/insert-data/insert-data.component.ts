@@ -1,10 +1,13 @@
-// TypeScript Component for Inserting New Records
+/**
+ * TypeScript Component for Inserting New Travel Expense Records.
+ */
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TravelExpensesService } from '../../services/travel-expenses.service';
 import { TravelExpensesDTO } from '../travel-expenses';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-insert-data',
@@ -12,13 +15,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./insert-data.component.css']
 })
 export class InsertDataComponent implements OnInit {
-
   constructor(
     private http: HttpClient,
     private location: Location,
     private travelExpensesService: TravelExpensesService,
     private router: Router
   ) { }
+
+  @ViewChild('myForm') myForm!: NgForm;
 
   ngOnInit(): void {
   }
@@ -31,16 +35,21 @@ export class InsertDataComponent implements OnInit {
   public end_date: string = "";
   public airfare: number = 0;
   public other_transport: number = 0;
+  public lodging: number = 0;
   public meals: number = 0;
   public other_expenses: number = 0;
   public total: number = 0;
 
-  // Calculate the total expense
+  /**
+   * Calculate the total expense based on form input fields.
+   */
   public calculateTotal() {
-    this.total = this.airfare + this.other_transport + this.meals + this.other_expenses;
+    this.total = this.airfare + this.other_transport + this.lodging +this.meals + this.other_expenses;
   }
 
-  // Reset form fields
+  /**
+   * Reset all form input fields to their initial values.
+   */
   public reset() {
     this.ref_number = "";
     this.title = "";
@@ -53,33 +62,47 @@ export class InsertDataComponent implements OnInit {
     this.other_expenses = 0;
   }
 
-  // Submit the form and insert a new record
+  /**
+   * Submit the form and insert a new travel expense record.
+   */
   public submit() {
-    // Create a TravelExpensesDTO object based on form data
-    const travelExpenses: TravelExpensesDTO = {
-      ref_number: this.ref_number,
-      title_en: this.title,
-      purpose_en: this.purpose,
-      start_date: this.start_date,
-      end_date: this.end_date,
-      airfare: this.airfare,
-      other_transport: this.other_transport,
-      meals: this.meals,
-      other_expenses: this.other_expenses,
-      total: this.total
-    };
+    // Check if the "Ref Number" field is valid
+    if (this.myForm.controls['ref_number'].valid) {
+      // Create a TravelExpensesDTO object based on form data
+      const travelExpenses: TravelExpensesDTO = {
+        ref_number: this.ref_number,
+        title_en: this.title,
+        purpose_en: this.purpose,
+        start_date: this.start_date,
+        end_date: this.end_date,
+        airfare: this.airfare,
+        other_transport: this.other_transport,
+        lodging: this.lodging,
+        meals: this.meals,
+        other_expenses: this.other_expenses,
+        total: this.total
+      };
 
-    // Insert the new record
-    this.travelExpensesService.insert(travelExpenses).subscribe(
-      (response) => {
-        this.reset();
-        console.info('Response:', response)
-        window.alert("Record created");
-        this.router.navigate(['/']);
-      },
-      (error) => {
-        console.error('Error:', error);
-      }
-    );
+      // Insert the new record
+      this.travelExpensesService.insert(travelExpenses).subscribe(
+        (response) => {
+          this.reset();
+          console.info('Response:', response)
+          window.alert("Record created");
+          this.router.navigate(['/']);
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
+    } else {
+      // Display an error message for the "Ref Number" field
+      this.myForm.controls['ref_number'].markAsTouched();
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
   }
 }

@@ -1,12 +1,15 @@
-// This is the server-side rendering module of the Angular application.
+/**
+ * Server-side rendering module of the Angular application.
+ */
 import { NgModule } from '@angular/core';
 import { ServerModule } from '@angular/platform-server';
-import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
+//import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
 
 @NgModule({
-    imports: [AppModule, ServerModule, ModuleMapLoaderModule],
-    bootstrap: [AppComponent]
+  // imports: [AppModule, ServerModule, ModuleMapLoaderModule],
+  imports: [AppModule, ServerModule],
+  bootstrap: [AppComponent]
 })
 export class AppServerModule { }

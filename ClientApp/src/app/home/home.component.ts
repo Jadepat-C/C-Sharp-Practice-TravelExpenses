@@ -1,4 +1,6 @@
-// Angular Component for Viewing Records
+/**
+ * Angular Component for Viewing Travel Expense Records.
+ */
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TravelExpensesDTO } from '../travel-expenses';
@@ -20,17 +22,23 @@ export class HomeComponent {
   currentPage: number = 1;
 
   // Number of items to display per page
-  itemsPerPage: number = 50;
+  itemsPerPage: number = 20;
 
   // Last page number
   lastPage: number = 1;
 
-  // Calculate the total number of pages
+  /**
+   * Calculate the total number of pages.
+   * @returns The total number of pages.
+   */
   totalPages(): number {
     return Math.ceil(this.dataset.length / this.itemsPerPage);
   }
 
-  // Generate an array of page numbers for display
+  /**
+   * Generate an array of page numbers for display.
+   * @returns An array of page numbers.
+   */
   pageNumbers(): number[] {
     const pages = [];
     const totalPages = this.totalPages();
@@ -40,7 +48,10 @@ export class HomeComponent {
     return pages;
   }
 
-  // Calculate the range of visible page numbers
+  /**
+   * Calculate the range of visible page numbers.
+   * @returns An array of visible page numbers.
+   */
   visiblePageNumbers(): number[] {
     const total = this.totalPages();
     const range = 5; // Number of page numbers to show on each side of the current page
@@ -58,36 +69,57 @@ export class HomeComponent {
     return pages;
   }
 
-  // Navigate to the specified page
+  /**
+   * Navigate to the specified page.
+   * @param page - The page number to navigate to.
+   */
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages()) {
       this.currentPage = page;
     }
   }
 
-  // Calculate the starting index of displayed instances
+  /**
+   * Calculate the starting index of displayed instances.
+   * @returns The starting index.
+   */
   startIndex(): number {
     return (this.currentPage - 1) * this.itemsPerPage;
   }
 
-  // Calculate the ending index of displayed instances
+  /**
+   * Calculate the ending index of displayed instances.
+   * @returns The ending index.
+   */
   endIndex(): number {
     const endIndex = this.startIndex() + this.itemsPerPage;
     return endIndex > this.dataset.length ? this.dataset.length : endIndex;
   }
 
-  // Return the instances to display on the current page
+  /**
+   * Return the instances to display on the current page.
+   * @returns An array of instances to display.
+   */
   displayedInstances(): TravelExpensesDTO[] {
     return this.dataset.slice(this.startIndex(), this.endIndex());
   }
 
-  // Select a record instance
+  /**
+   * Select a record instance and navigate to its detail page.
+   * @param instance - The selected record instance.
+   */
   selectInstance(instance: TravelExpensesDTO): void {
     this.selectedInstance = instance;
     this.router.navigate(['/detail', instance.id]);
   }
 
-  // Constructor to initialize data
+  /**
+   * Constructor for HomeComponent.
+   * Initializes data by fetching records from the service.
+   * @param router - The Router service for navigation.
+   * @param http - The HttpClient for making HTTP requests.
+   * @param travelExpensesService - The TravelExpensesService for fetching records.
+   */
   constructor(
     private router: Router,
     http: HttpClient,
@@ -96,9 +128,11 @@ export class HomeComponent {
     this.getData();
   }
 
-  // Retrieve data from the service
+  /**
+   * Retrieve data from the service and update the dataset.
+   */
   getData() {
-    this.travelExpensesService.get().subscribe(
+    this.travelExpensesService.getAll().subscribe(
       (result) => {
         this.dataset = result;
         this.lastPage = this.totalPages(); // Update lastPage when new data is received
@@ -108,26 +142,34 @@ export class HomeComponent {
       });
   }
 
-  // Move to the next page
+  /**
+   * Move to the next page.
+   */
   nextPage(): void {
     if (this.currentPage < this.lastPage) {
       this.currentPage++;
     }
   }
 
-  // Move to the previous page
+  /**
+   * Move to the previous page.
+   */
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
     }
   }
 
-  // Move to the first page
+  /**
+   * Move to the first page.
+   */
   goFirst(): void {
     this.currentPage = 1;
   }
 
-  // Move to the last page
+  /**
+   * Move to the last page.
+   */
   goLast(): void {
     this.currentPage = this.lastPage;
   }

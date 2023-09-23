@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+using TravelExpenses.BackEnd.Data;
+using TravelExpenses.BackEnd.Models;
 
 namespace TravelEx.Controllers
 {
@@ -30,10 +33,25 @@ namespace TravelEx.Controllers
         public IActionResult Get()
         {
             ITravelExpensesDAO te = new TravelExpensesDAO();
-            var travelExpenses = te.getAll(); // Call the getAll() method to retrieve data
-            if (travelExpenses == null)
+            List<TravelExpensesDTO> travelExpenses = null;
+            try
             {
-                return NotFound();
+                travelExpenses = te.getAll();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+                return StatusCode(500, ex.Message);
             }
             return StatusCode(200, travelExpenses);
         }
@@ -50,14 +68,28 @@ namespace TravelEx.Controllers
         {
             // Retrieve the travel expense by ID
             var te = new TravelExpensesDAO();
-            var travelExpense = te.getByID(id);
-
-            if (travelExpense == null)
+            TravelExpensesDTO travelExpense = null ;
+            try
             {
-                return NotFound(); // Return a 404 Not Found response if not found
+                travelExpense = te.getByID(id);
+            } 
+            catch(ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+                return StatusCode(500, ex.Message);
             }
             return StatusCode(200, travelExpense);
-        }
+        } 
 
         /// <summary>
         /// Inserts a new travel expense record using HttpPost.
@@ -68,16 +100,22 @@ namespace TravelEx.Controllers
         [Route("insert")]
         public IActionResult Insert([FromBody] TravelExpensesDTO travelExpenses)
         {
-            // Check if the provided travelExpenses object is valid
-            if (travelExpenses == null)
-            {
-                return StatusCode(400, "Bad Request for invalid input");// Return a 400 Bad Request for invalid input
-            }
-
             // Insert the new record with a generated id
             var te = new TravelExpensesDAO();
-            te.Insert(travelExpenses);
-
+            try
+            {
+                te.Insert(travelExpenses);
+            } 
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+                return StatusCode(500, ex.Message);
+            }
             // Return a response indicating success
             return StatusCode(200, "Insert successful");// 200 OK status code for a successful insertion
         }
@@ -92,7 +130,21 @@ namespace TravelEx.Controllers
         public IActionResult Delete(int id)
         {
             var dao = new TravelExpensesDAO();
-            dao.Delete(id);
+            try
+            {
+                dao.Delete(id);
+            } 
+            catch(InvalidOperationException ex) 
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(400, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+                return StatusCode(500, ex.Message);
+            }
+
 
             return StatusCode(200, "Delete successful");
         }
@@ -107,7 +159,26 @@ namespace TravelEx.Controllers
         public IActionResult Update(TravelExpensesDTO te) 
         {
             var dao = new TravelExpensesDAO();
-            dao.Update(te);
+            try
+            {
+                dao.Update(te);
+            } 
+            catch(InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(400, ex.Message);
+            } 
+            catch(ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+                return StatusCode(500, ex.Message);
+            }
+            
             return StatusCode(200, "Update successful");
         }
     }

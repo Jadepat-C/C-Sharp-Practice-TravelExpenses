@@ -1,3 +1,6 @@
+/**
+ * Angular Component for Navigation Menu.
+ */
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,10 +11,16 @@ import { Component } from '@angular/core';
 export class NavMenuComponent {
   isExpanded = false;
 
+  /**
+   * Collapse the navigation menu.
+   */
   collapse() {
     this.isExpanded = false;
   }
 
+  /**
+   * Toggle the navigation menu between expanded and collapsed states.
+   */
   toggle() {
     this.isExpanded = !this.isExpanded;
   }

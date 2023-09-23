@@ -1,4 +1,6 @@
-// This is the root component of the Angular application.
+/**
+ * Root component of the Angular application.
+ */
 import { Component } from '@angular/core';
 
 @Component({

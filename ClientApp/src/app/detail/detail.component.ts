@@ -1,4 +1,6 @@
-// Import necessary modules and components
+/**
+ * Component for displaying details of a travel expense record.
+ */
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TravelExpensesDTO } from '../travel-expenses';
@@ -13,6 +15,13 @@ import { TravelExpensesService } from '../../services/travel-expenses.service';
 export class DetailComponent implements OnInit {
   @Input() selectedInstance?: TravelExpensesDTO;
 
+  /**
+   * Constructor for DetailComponent.
+   * @param route - The ActivatedRoute service to access route parameters.
+   * @param router - The Router service for navigation.
+   * @param location - The Location service for interacting with the browser's history.
+   * @param travelExpensesService - The TravelExpensesService for fetching and deleting records.
+   */
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -20,9 +29,11 @@ export class DetailComponent implements OnInit {
     private travelExpensesService: TravelExpensesService
   ) { }
 
-  // This method is automatically called when the component is initialized
+  /**
+   * Lifecycle hook called when the component is initialized.
+   * Subscribes to route parameter changes to fetch data for a specific record.
+   */
   ngOnInit(): void {
-    // Subscribe to route parameter changes to fetch data for a specific record
     this.route.params.subscribe(params => {
       const id = params['id']; // Get the 'id' parameter from the URL
 
@@ -38,7 +49,10 @@ export class DetailComponent implements OnInit {
     });
   }
 
-  // Handler for the delete button click
+  /**
+   * Handler for the delete button click.
+   * Displays a confirmation dialog before proceeding with deletion.
+   */
   delete(): void {
     const confirmation = window.confirm('Are you sure you want to delete this record? \nYou cannot undo this action.');
 
@@ -49,7 +63,10 @@ export class DetailComponent implements OnInit {
     // If the user clicked "Cancel," do nothing
   }
 
-  // Perform the actual deletion of the record
+  /**
+   * Perform the actual deletion of the record.
+   * Deletes the record based on the 'id' parameter from the route.
+   */
   performDelete(): void {
     this.route.params.subscribe(params => {
       const id = params['id']; // Get the 'id' parameter from the URL

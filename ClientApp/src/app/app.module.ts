@@ -1,4 +1,6 @@
-// This is the main module of the Angular application.
+/**
+ * Main module of the Angular application.
+ */
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,10 +11,7 @@ import { DatePipe } from '@angular/common';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { DetailComponent } from './detail/detail.component'
-import { AppRoutingModule } from './app-routing.module';
+import { DetailComponent } from './detail/detail.component';
 import { EditDataComponent } from './edit-data/edit-data.component';
 import { InsertDataComponent } from './insert-data/insert-data.component';
 
@@ -21,8 +20,6 @@ import { InsertDataComponent } from './insert-data/insert-data.component';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     DetailComponent,
     EditDataComponent,
     InsertDataComponent
@@ -37,7 +34,7 @@ import { InsertDataComponent } from './insert-data/insert-data.component';
       { path: 'detail/:id', component: DetailComponent },
       { path: 'edit/:id', component: EditDataComponent }
     ]),
-    AppRoutingModule
+    // AppRoutingModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

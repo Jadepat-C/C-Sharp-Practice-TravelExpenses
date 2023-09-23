@@ -24,7 +24,7 @@ export class TravelExpensesService {
     return this.http.post(this.baseUrl + 'travelexpenses/update/' + updateItem.id, updateItem, { responseType: 'text' });
   }
 
-  get() {
+  getAll() {
     return this.http.get<TravelExpensesDTO[]>(this.baseUrl + 'travelexpenses/get');
   }
 

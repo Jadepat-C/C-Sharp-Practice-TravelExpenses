@@ -8,13 +8,15 @@
   <h5>Purpose</h5>
   <p>{{ selectedInstance.purpose_en }}</p>
   <h5>Start Date</h5>
-  <p>{{ selectedInstance.start_date }}</p>
+  <p>{{ selectedInstance.start_date | date:'MM/dd/yyyy'}}</p>
   <h5>End Date</h5>
-  <p>{{ selectedInstance.end_date }}</p>
+  <p>{{ selectedInstance.end_date | date:'MM/dd/yyyy'}}</p>
   <h5>Airfare</h5>
   <p>{{ selectedInstance.airfare | number:'1.2-2'}}</p>
   <h5>Other Transportation</h5>
   <p>{{ selectedInstance.other_transport | number:'1.2-2'}}</p>
+  <h5>Lodging</h5>
+  <p>{{ selectedInstance.lodging | number:'1.2-2'}}</p>
   <h5>Meals</h5>
   <p>{{ selectedInstance.meals | number:'1.2-2'}}</p>
   <h5>Other Expenses</h5>
